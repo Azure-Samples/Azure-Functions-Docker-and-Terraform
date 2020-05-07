@@ -9,7 +9,7 @@ products/technologies:
 - docker
 ---
 
-# Official Microsoft Sample
+# Azure Functions Docker and Terraform
 These samples showcase the following:
 - How to use Terraform to provision and deploy Azure Functions based on either docker image or running from a package.
 - How to create a docker image to run a Java Azure Function. The assets include: 
