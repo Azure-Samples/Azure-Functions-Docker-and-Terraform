@@ -1,0 +1,51 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT license.
+trigger:
+  batch: true
+  branches:
+    include:
+    - master
+  paths:
+    include:
+    - ./*
+    exclude:
+    - /**/*.md
+    
+pool:
+  name: Azure Pipelines
+  vmImage: 'ubuntu-latest'
+
+steps:
+  - task: Docker@2
+    displayName: Build
+    inputs:
+      containerRegistry: "$(SERVICE_CONNECTION_NAME)"
+      repository: "<image-name>"
+      command: build
+      Dockerfile: "Dockerfile"
+      buildContext: "."
+      arguments: "--build-arg AzureWebJobsStorage=$(STORAGE_CONNECTION_STRING)"
+
+  - bash: |
+      # run the image in the background
+      docker run --name docker_run -d $(FULL_REGISTRY_NAME)/<image-name>:$(Build.BuildId)
+
+      # copy the test results from the image
+      docker cp docker_run:/build/surefire-reports .
+
+      # remove the test results from the image
+      docker exec docker_run rm -rf /build
+
+      # stop the image
+      docker stop docker_run
+    displayName: "Copy Test Results Script"
+
+  - task: PublishTestResults@2
+    displayName: "Publish Test Results **/TEST-*.xml"
+
+  - task: Docker@2
+    displayName: Push
+    inputs:
+      containerRegistry: "$(SERVICE_CONNECTION_NAME)"
+      repository: "<image-name>"
+      command: push

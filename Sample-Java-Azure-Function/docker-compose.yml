@@ -1,0 +1,18 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT license.
+
+version: '3.7'
+
+services:
+  sample-java-fn:
+    env_file:
+      - .env
+    image: ${REGISTRY}/sample-java-fn
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - "9010:80"
+    restart: always
+    environment:
+      AzureWebJobsStorage: ${STORAGE_CONNECTION_STRING}
