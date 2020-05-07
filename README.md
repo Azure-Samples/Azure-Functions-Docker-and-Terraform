@@ -19,8 +19,6 @@ These samples showcase the following:
 
 ## Contents
 
-Outline the file contents of the repository. It helps users navigate the codebase, build configuration and any related assets.
-
 | File/folder       | Description                                |
 |-------------------|--------------------------------------------|
 | `Sample-Java-Azure-Function`             | Sample Java Azure Function, DockerFile, docker-compose, and Azure pipeline files.                        |
