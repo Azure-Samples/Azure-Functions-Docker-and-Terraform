@@ -29,7 +29,7 @@ These samples showcase the following:
 | `README.md`       | This README file.                          |
 | `LICENSE`         | The license for the sample.                |
 
-## Running the sample
+## Running The Sample
 
 ## Azure Functions Terraform Module
 
